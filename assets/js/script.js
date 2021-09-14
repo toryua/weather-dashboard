@@ -1,9 +1,10 @@
-var searchBtnEl = document.getElementById('searchBtn');
-var cityNameEl = document.getElementsByClassName("city")[0].value;
-var cityEl = cityNameEl;
-console.log(cityEl + " is the city name");
-
-function weatherSearch () {
+var weatherForm = document.getElementById('myForm');
+​
+function weatherSearch (event) {
+    event.preventDefault();
+    var cityNameEl = document.getElementById("city").value;
+    var cityEl = cityNameEl;
+        console.log(cityEl + " is the city name");
     console.log("weatherSearch is called!");
     console.log(cityEl);
     fetch("https://api.openweathermap.org/data/2.5/find?q=" + cityEl + "&units=imperial&appid=" + "4905268bbaa813b64a0dd03408e9b4eb"
@@ -18,7 +19,6 @@ function weatherSearch () {
           ;
       });
       console.log("fetch is finished!"); 
-
       /*function weatherSearch() {
         let x = document.forms["myForm"]["fname"].value;
         fetch('https://api.openweathermap.org/data/2.5/find?q=' +
@@ -31,6 +31,6 @@ function weatherSearch () {
                 console.log(JSON.stringify(myJson));
         }); 
     }; */
-
+​
 }         
-searchBtnEl.addEventListener("click", weatherSearch())
+weatherForm.addEventListener("submit", weatherSearch);
