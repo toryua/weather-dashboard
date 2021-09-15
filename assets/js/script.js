@@ -1,3 +1,6 @@
+// create a variable for the local storage array
+var cityArr = [];
+
 var weatherForm = document.getElementById('myForm');
 function weatherSearch (event) {
     event.preventDefault();
@@ -15,7 +18,7 @@ function weatherSearch (event) {
           console.log(myJson);
          
           var weatherResponse = document.querySelector('#weather-container');
-          var weatherForecast = document.querySelector('#weather-forecast');
+          
           var weatherTemp = myJson.list[0].main.temp;
           var windSpeed = myJson.list[0].wind.speed;
           var humidity = myJson.list[0].main.humidity;
@@ -41,57 +44,49 @@ function weatherSearch (event) {
             var windSpeed5 = myJson.list[i].wind.speed;
             var humidity5 = myJson.list[i].main.humidity;
             var icon5 = myJson.list[i].weather[0].icon;
+            console.log(humidity5);
             
-            weatherForecast.innerHTML= "Five Day Forecast for " + cityEl + ": " + "<br>" + 
-          "Day " + i + ": " +
+            var weatherForecast = document.querySelector('#weather-forecast');
+            var x = document.createElement("div");
+            var y = document.createTextNode("Day " + i);
+            x.appendChild(y);
+            var tempNode = document.createTextNode(" Temperature: " + (Math.floor(weatherTemp5)) + "°F ");
+            x.appendChild(tempNode);
+            var windNode = document.createTextNode(" Wind Speed: " + windSpeed5 + "mph ");
+            x.appendChild(windNode);
+            var humidNode = document.createTextNode(" Humidity: " + humidity5 + " ");
+            x.appendChild(humidNode);
+            var iconNode = document.createTextNode(" Icon: " + icon5);
+            x.appendChild(iconNode);
 
-          "Temperature: " + (Math.floor(weatherTemp5)) + "°F " + "<br>" +
-          
-          "Wind Speed: " + windSpeed5 + "mph " + "<br>" +
+            weatherForecast.appendChild(x);
 
-          "Humidity: " + humidity5 + " " + "<br>" +
-          
-          "Icon: " + icon5 + "<br>" 
-           
-          ;
-
-          }
-          
-          
-
-          /*var cocktailFunction = function(){
-            fetch(
-                'https://www.thecocktaildb.com/api/json/v1/1/random.php'
-                
-            )
-        
-            .then(function(randomCocktail){
-                return randomCocktail.json();
-            })
-            .then(function(randomCocktail){
-                console.log(randomCocktail);
-        
-                var cocktail = JSON.stringify(randomCocktail.drinks[0].strDrink);
-                var cocktailGlass = randomCocktail.drinks[0].strGlass
-                var cocktailIngredientOne = randomCocktail.drinks[0].strIngredient1;
-                console.log(cocktailGlass);
-        
-                var cocktailResponse = document.querySelector('#cocktailName')
-                cocktailResponse.innerHTML = 'Drink Name: ' + cocktail + '<br>' + 'Usually served in a(n): ' + 
-                cocktailGlass + '<br>' + 'Ingredients: ' + cocktailIngredientOne;
-        
-            }
-            )
+          }  
             
-            
-        }*/
+
       });
- 
-      localStorage.setItem('citySearch', cityEl);  
-    
+      function citySearchFn () { 
+           if(!cityArr) {
+             cityArr = [];
+            } else { 
+                var cityStr = JSON.stringify(cityEl);
+                cityArr.push(cityStr);
+                console.log(cityArr);
+            }
+          localStorage.setItem('city-array', cityArr);  
+      }
+      citySearchFn();
+      
 }     
+
+// to do: create button with event listeners
+// associate event listeners with re-search of city
+// append it to the previous search
+// iterate through the local storage array to create a button for each city
 
 var citySearch = document.getElementById('previous-searches');
 citySearch.innerHTML = localStorage.getItem('citySearch');
+
+
 
 weatherForm.addEventListener("submit", weatherSearch);
